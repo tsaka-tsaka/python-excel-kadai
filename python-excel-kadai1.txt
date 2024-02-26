@@ -1,0 +1,38 @@
+import openpyxl
+import datetime
+
+workbook=openpyxl.Workbook()
+
+ws=workbook.active
+
+date_today0=datetime.datetime.now()
+
+date_today=date_today0.strftime('%Y%m%d')
+date_today2=date_today0.strftime('%Y/%m/%d')
+
+ws['B2']='請求書'
+ws['B4']='株式会社ABC'
+ws['B5']='〒101-0022 東京都千代田区神田練塀町300'
+ws['B6']='TEL:03-1234-5678 FAX:03-1234-5678'
+ws['B7']='担当者名:鈴木一郎 様'
+ws['F4']='No.'
+ws['G4']='0001'
+ws['F5']='日付'
+ws['G5']=date_today2
+
+data=[
+    [''],
+    [''],
+    ['','商品名', '数量', '単価','金額'],
+    ['','商品A',2,10000, 20000],
+    ['','商品B',1,15000,15000],
+    ['','','','',35000],
+    [''],
+    ['','小計','','',35000],
+    ['','消費税','','',3500],
+    ['','合計','','',38500]
+]
+
+for raw in data:
+  ws.append(raw)
+workbook.save(f"請求書_{date_today}.xlsx")
