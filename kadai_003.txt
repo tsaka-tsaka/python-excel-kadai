@@ -7,11 +7,15 @@ df3=pd.read_excel('2023_年間売上表.xlsx')
 
 df=pd.concat([df2, df3])
 
-grouped=df.groupby(['商品', '売上年']).agg({"金額（千円）":"sum"})
+grouped=df.groupby(['商品','売上年']).agg({"金額（千円）":"sum"})
+
+grouped=grouped.sort_values(by='商品',ascending=True)
+
+grouped.reset_index(inplace=True)
 
 writer=pd.ExcelWriter('売上集計表.xlsx')
 
-df.to_excel(writer, sheet_name='Sheet1', index=False)
+grouped.to_excel(writer, sheet_name='Sheet1',index=False)
 
 writer.close()
 
