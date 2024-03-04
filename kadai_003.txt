@@ -1,0 +1,26 @@
+import pandas as pd
+import openpyxl
+from openpyxl.styles import PatternFill
+
+df2=pd.read_excel('2022_年間売上表.xlsx')
+df3=pd.read_excel('2023_年間売上表.xlsx')
+
+df=pd.concat([df2, df3])
+
+grouped=df.groupby(['商品', '売上年']).agg({"金額（千円）":"sum"})
+
+writer=pd.ExcelWriter('売上集計表.xlsx')
+
+df.to_excel(writer, sheet_name='Sheet1', index=False)
+
+writer.close()
+
+workbook=openpyxl.load_workbook('売上集計表.xlsx')
+
+ws=workbook.active
+
+ws['A1'].fill=PatternFill(patternType='solid', fgColor='F2F2F2')
+ws['B1'].fill=PatternFill(patternType='solid', fgColor='F2F2F2')
+ws['C1'].fill=PatternFill(patternType='solid', fgColor='F2F2F2')
+
+workbook.save('売上集計表.xlsx')
